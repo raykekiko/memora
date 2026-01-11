@@ -1,0 +1,1040 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memora - Transform Memories Into Art</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #2c2c2c;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1a1a1a;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c2c2c;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a:hover {
+            color: #d4a574;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 50vh;
+            background: linear-gradient(135deg, #f5f1ed 0%, #e8dfd5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 5%;
+        }
+
+        /* Carousel Section */
+        .carousel-section {
+            padding: 4rem 5%;
+            background: white;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            height: 550px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .carousel-track {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #f5f1ed;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 2rem 1.5rem 1rem;
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: #5a5a5a;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: #2c2c2c;
+            color: white;
+            padding: 1.2rem 3rem;
+            text-decoration: none;
+            font-size: 1rem;
+            border-radius: 50px;
+            transition: all 0.3s;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background: #d4a574;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 6rem 5%;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+            color: #1a1a1a;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            transition: transform 0.3s;
+        }
+
+        .step:hover {
+            transform: translateY(-10px);
+        }
+
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background: #d4a574;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1.5rem;
+            font-weight: 300;
+        }
+
+        .step h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            font-weight: 400;
+        }
+
+        .step p {
+            color: #5a5a5a;
+            line-height: 1.8;
+        }
+
+        /* Shop Categories */
+        .shop {
+            padding: 6rem 5%;
+            background: #faf8f6;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .category-image {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .category-card:hover .category-image img {
+            transform: scale(1.1);
+        }
+
+        .category-content {
+            padding: 2rem;
+        }
+
+        .category-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #1a1a1a;
+            font-weight: 400;
+        }
+
+        .category-content p {
+            color: #5a5a5a;
+            font-size: 0.95rem;
+        }
+
+        /* Styles & Customization */
+        .customization {
+            padding: 6rem 5%;
+            background: white;
+        }
+
+        .custom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+
+        .custom-option {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: #faf8f6;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .custom-option:hover {
+            background: #d4a574;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .custom-option h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 6rem 5%;
+            background: #2c2c2c;
+            color: white;
+        }
+
+        .pricing .section-title {
+            color: white;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            color: #2c2c2c;
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.featured {
+            background: #deb181;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 300;
+            margin: 1.5rem 0;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+        }
+
+        .pricing-card.featured .pricing-features li {
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Our Story Section */
+        .our-story {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, #f5f1ed 0%, #e8dfd5 100%);
+        }
+
+        .story-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .story-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #1a1a1a;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .story-content p {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: #2c2c2c;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .story-highlight {
+            background: rgba(212, 165, 116, 0.2);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            border-left: 4px solid #d4a574;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c2c2c;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4a574;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            border: 2px dashed #d4a574;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            background: #faf8f6;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .image-preview {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .image-preview.active {
+            display: block;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .image-preview-text {
+            margin-top: 0.5rem;
+            color: #2c2c2c;
+            font-weight: 500;
+        }
+
+        .change-photo-btn {
+            margin-top: 1rem;
+            background: #d4a574;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .change-photo-btn:hover {
+            background: #c9956f;
+        }
+
+        .submit-button {
+            width: 100%;
+            background: #2c2c2c;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-button:hover {
+            background: #d4a574;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #d4a574;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .categories, .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .carousel-item {
+                height: 400px;
+            }
+
+            .carousel-container {
+                height: 400px;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+
+            #place-order {
+                padding: 4rem 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">MEMORA</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#shop">Shop</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#place-order">Place Order</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Transform Memories Into Art</h1>
+            <p>Handcrafted portrait art that captures your most cherished moments. Each piece is carefully drawn by skilled artists and delivered as a timeless keepsake.</p>
+        </div>
+    </section>
+
+    <!-- Image Carousel -->
+    <section class="carousel-section">
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-item active">
+                    <img src="images/couple.jpeg" alt="Portrait Sample">
+                    <div class="carousel-caption">Line Art Portrait</div>
+                </div>
+                <div class="carousel-item">
+                    <img src="images/neeraj.jpeg" alt="Portrait Sample">
+                    <div class="carousel-caption">Watercolor Style</div>
+                </div>
+                <div class="carousel-item">
+                    <img src="images/messi.jpeg" alt="Portrait Sample">
+                    <div class="carousel-caption">Charcoal Portrait</div>
+                </div>
+                
+                <div class="carousel-item">
+                    <img src="images/boxer.jpeg" alt="Portrait Sample">
+                    <div class="carousel-caption">Action Portrait</div>
+                </div>
+                <div class="carousel-item">
+                    <img src="images/Ronaldo .jpeg" alt="Portrait Sample">
+                    <div class="carousel-caption">Vintage Style</div>
+                </div>
+                <div class="carousel-item">
+                    <img src="images/cricket.jpeg" alt="Portrait Sample">
+                    <div class="carousel-caption">Cartoon Portrait</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Choose Your Art Style</h3>
+                <p>Select from minimal line art, vintage, charcoal, watercolor, cartoon, or anime style that best captures your vision.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Upload Photo & Details</h3>
+                <p>Share your precious photo and tell us your preferences: number of people, background style, frame choice, size, and any special messages.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>We Hand-Craft It</h3>
+                <p>Our skilled artists meticulously hand-draw your portrait, pouring heart and soul into every stroke to create your unique masterpiece.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>We Deliver It</h3>
+                <p>Your finished artwork arrives beautifully packaged in a luxury gift box, ready to cherish or gift to someone special.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop Categories -->
+    <section id="shop" class="shop">
+        <h2 class="section-title">Shop by Memory</h2>
+        <div class="categories">
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="images/family.jpeg" alt="Family Portrait">
+                </div>
+                <div class="category-content">
+                    <h3>Family Portraits</h3>
+                    <p>Celebrate your family bond with a timeless portrait that captures everyone's unique personality.</p>
+                </div>
+            </div>
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="images/couple.jpeg" alt="Couple Portrait">
+                </div>
+                <div class="category-content">
+                    <h3>Couple Portraits</h3>
+                    <p>Perfect for anniversaries, engagements, or celebrating your love story.</p>
+                </div>
+            </div>
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="images/pet.jpeg" alt="Pet Portrait">
+                </div>
+                <div class="category-content">
+                    <h3>Pet Portraits</h3>
+                    <p>Immortalize your furry friend with a beautiful hand-drawn portrait.</p>
+                </div>
+            </div>
+           
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="images/birthday.jpeg" alt="Occasion-Based Art">
+                </div>
+                <div class="category-content">
+                    <h3>Occasion-Based Art</h3>
+                    <p>Make birthdays and anniversaries unforgettable with a personalized portrait gift.</p>
+                </div>
+            </div>
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="images/wedding.jpeg" alt="Wedding Memories">
+                </div>
+                <div class="category-content">
+                    <h3>Wedding Memories</h3>
+                    <p>Transform your special day into a beautiful work of art.</p>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="images/tribute.jpeg" alt="Tribute Portrait">
+                </div>
+                <div class="category-content">
+                    <h3>Tribute Portraits</h3>
+                    <p>Honor loved ones with a heartfelt memorial portrait.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customization Options -->
+    <section class="customization">
+        <h2 class="section-title">Customize Every Detail</h2>
+        <div class="custom-grid">
+            <div class="custom-option">
+                <h4>Art Styles</h4>
+                <p>Minimal Line, Vintage, Charcoal, Watercolor, Cartoon, Anime</p>
+            </div>
+            
+            <div class="custom-option">
+                <h4>Background</h4>
+                <p>Custom or Preset Options</p>
+            </div>
+            <div class="custom-option">
+                <h4>Frame Selection</h4>
+                <p>Premium Quality Frames</p>
+            </div>
+            <div class="custom-option">
+                <h4>Size Options</h4>
+                <p>From 8x10 to 24x36</p>
+            </div>
+            <div class="custom-option">
+                <h4>Personal Touch</h4>
+                <p>Handwritten Notes & Dates</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="pricing">
+        <h2 class="section-title">Transparent Pricing</h2>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <h3>Basic Line Art</h3>
+                <div class="price">₹1,499 - ₹2,499</div>
+                <ul class="pricing-features">
+                    <li>Minimal line art style</li>
+                    <li>Single to multiple people</li>
+                    <li>Clean, modern aesthetic</li>
+                    <li>Simple background</li>
+                    <li>Multiple size options</li>
+                    <li>Digital preview included</li>
+                    <li>Standard delivery</li>
+                </ul>
+            </div>
+            <div class="pricing-card featured">
+                <h3>Charcoal / Watercolor</h3>
+                <div class="price">₹3,999 - ₹7,999</div>
+                <ul class="pricing-features">
+                    <li>Charcoal or watercolor style</li>
+                    <li>Rich texture and depth</li>
+                    <li>Up to 4 people</li>
+                    <li>Custom background options</li>
+                    <li>Premium paper quality</li>
+                    <li>Frame options available</li>
+                    <li>Handwritten notes</li>
+                    <li>Luxury gift packaging</li>
+                    <li>Faster turnaround</li>
+                </ul>
+            </div>
+            <div class="pricing-card">
+                <h3>Premium Framed Canvas</h3>
+                <div class="price">₹9,999</div>
+                <ul class="pricing-features">
+                    <li>Museum-quality canvas</li>
+                    <li>Any art style available</li>
+                    <li>Up to 6 people/pets</li>
+                    <li>Fully custom background</li>
+                    <li>Premium wooden frame</li>
+                    <li>Large format sizes</li>
+                    <li>Personalized details</li>
+                    <li>Deluxe gift box</li>
+                    <li>Express delivery option</li>
+                    <li>100% satisfaction guarantee</li>
+                </ul>
+            </div>
+            <div class="pricing-card featured">
+                <h3>Corporate / Bulk Gifting</h3>
+                <div class="price">Custom</div>
+                <ul class="pricing-features">
+                    <li>Volume discounts available</li>
+                    <li>Corporate branding options</li>
+                    <li>Bulk order management</li>
+                    <li>Dedicated account manager</li>
+                    <li>Flexible payment terms</li>
+                    <li>Custom packaging design</li>
+                    <li>Priority production</li>
+                    <li>Pan-India delivery</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Place Order Section -->
+
+    <section id="place-order" class="how-it-works">
+        
+        <h2 class="section-title">Place Your Order</h2>
+        <div style="max-width: 800px; margin: 0 auto;">
+            <form id="orderForm">
+                 <div class="form-group">
+                <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Delivery Address *</label>
+                    <textarea id="address" name="address" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="artStyle">Art Style *</label>
+                    <select id="artStyle" name="artStyle" required>
+                        <option value="">Select Art Style</option>
+                        <option value="minimal-line">Minimal Line Art</option>
+                        <option value="vintage">Vintage Style</option>
+                        <option value="charcoal">Charcoal Portrait</option>
+                        <option value="watercolor">Watercolor</option>
+                        <option value="cartoon">Cartoon Style</option>
+                        <option value="anime">Anime Style</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Portrait Category *</label>
+                    <select id="category" name="category" required>
+                        <option value="">Select Category</option>
+                        <option value="family">Family Portrait</option>
+                        <option value="couple">Couple Portrait</option>
+                        <option value="pet">Pet Portrait</option>
+                        <option value="parent-anniversary">Parent Anniversary</option>
+                        <option value="birthday">Birthday Special</option>
+                        <option value="wedding">Wedding Memory</option>
+                        <option value="graduation">Graduation</option>
+                        <option value="farewell">Farewell</option>
+                        <option value="tribute">Tribute Portrait</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="peopleCount">Number of People/Pets *</label>
+                    <select id="peopleCount" name="peopleCount" required>
+                        <option value="">Select</option>
+                        <option value="1">1 Person/Pet</option>
+                        <option value="2">2 People/Pets</option>
+                        <option value="3">3 People/Pets</option>
+                        <option value="4">4 People/Pets</option>
+                        <option value="5">5 People/Pets</option>
+                        <option value="6+">6+ People/Pets</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="size">Portrait Size *</label>
+                    <select id="size" name="size" required>
+                        <option value="">Select Size</option>
+                        <option value="8x10">8x10 inches</option>
+                        <option value="11x14">11x14 inches</option>
+                        <option value="16x20">16x20 inches</option>
+                        <option value="18x24">18x24 inches</option>
+                        <option value="24x36">24x36 inches</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="frame">Frame Option *</label>
+                    <select id="frame" name="frame" required>
+                        <option value="">Select Frame</option>
+                        <option value="no-frame">No Frame</option>
+                        <option value="basic-black">Basic Black Frame</option>
+                        <option value="basic-white">Basic White Frame</option>
+                        <option value="wooden">Wooden Frame</option>
+                        <option value="premium">Premium Frame</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="background">Background Preference</label>
+                    <select id="background" name="background">
+                        <option value="simple">Simple/Plain</option>
+                        <option value="custom">Custom Background</option>
+                        <option value="original">Keep Original Photo Background</option>
+                    </select>
+                </div>
+
+                <div class="form-group">  
+                    <label for="message">Special Message/Note (Optional)</label>
+                    <textarea id="message" name="message" placeholder="Any special instructions, dates, or text to include in the portrait"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Your Photo *</label>
+                    <div class="file-upload" id="fileUploadBox" onclick="document.getElementById('photoUpload').click()">
+                        <p id="uploadText">Click to upload your photo</p>
+                        <p style="font-size: 0.9rem; color: #5a5a5a;">Supported formats: JPG, PNG (Max 10MB)</p>
+                        <input type="file" id="photoUpload" name="photo" accept="image/*" required>
+                    </div>
+                    <div class="image-preview" id="imagePreview">
+                        <img id="previewImage" src="" alt="Preview">
+                        <p class="image-preview-text" id="fileName"></p>
+                        <button type="button" class="change-photo-btn" onclick="document.getElementById('photoUpload').click()">Change Photo</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button">Submit Order Request</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="our-story">
+        <div class="story-content">
+            <h2>Our Story</h2>
+            <p>We created this platform with a clear purpose — to support and uplift local artists by giving them the recognition and fair pay they truly deserve. Every artwork featured on our website represents skill, passion, and countless hours of creative effort, and we work closely with artists to ensure transparency and respect at every step.</p>
+            
+            <div class="story-highlight">
+                <p>Beyond showcasing art, we believe in giving back to society. A portion of the profits earned through our platform is dedicated to conducting art workshops in rural schools. These workshops aim to encourage creativity, nurture young talent, and provide children with access to artistic opportunities they may not otherwise receive.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Memora Art Studio. Transforming memories into timeless art.</p>
+        <p>Every portrait is handcrafted with love and attention to detail.</p>
+        <div class="social-links">
+            <a href="#">Instagram</a>
+            <a href="#">Pinterest</a>
+            <a href="#">Facebook</a>
+            <a href="#">Contact Us</a>
+        </div>
+    </footer>
+
+    <script>
+        // Carousel functionality
+        const items = document.querySelectorAll('.carousel-item');
+        let currentIndex = 0;
+
+        function showNextImage() {
+            items[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % items.length;
+            items[currentIndex].classList.add('active');
+        }
+
+        // Change image every 2 seconds
+        setInterval(showNextImage, 2000);
+
+        // Form submission
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your order! We will contact you shortly to confirm details and process payment.');
+            this.reset();
+            resetImageUpload();
+        });
+
+        // File upload display with image preview
+        document.getElementById('photoUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const fileName = file.name;
+                const fileSize = (file.size / 1024 / 1024).toFixed(2); // Convert to MB
+                
+                // Check file size (10MB limit)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File size exceeds 10MB. Please choose a smaller file.');
+                    this.value = '';
+                    return;
+                }
+                
+                // Hide upload box and show preview
+                document.getElementById('fileUploadBox').style.display = 'none';
+                document.getElementById('imagePreview').classList.add('active');
+                
+                // Display file name
+                document.getElementById('fileName').textContent = `Uploaded: ${fileName} (${fileSize} MB)`;
+                
+                // Create image preview
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('previewImage').src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Reset preview when form is reset
+        function resetImageUpload() {
+            document.getElementById('fileUploadBox').style.display = 'block';
+            document.getElementById('imagePreview').classList.remove('active');
+            document.getElementById('previewImage').src = '';
+            document.getElementById('fileName').textContent = '';
+        }
+    </script>
+</body>
+</html>
